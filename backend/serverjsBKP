@@ -1,0 +1,40 @@
+import express from "express";
+import mysql from "mysql2";
+import cors from "cors";
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// DB connection
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "", // default for XAMPP
+  database: "schoolm-db",
+});
+
+db.connect((err) => {
+  if (err) {
+    console.error("❌ Database connection failed", err);
+    return;
+  }
+  console.log("✅ Connected to MySQL");
+});
+
+// API to insert student
+app.post("/api/students", (req, res) => {
+  const { name, email, phone, course } = req.body;
+  const sql = "INSERT INTO students (name, email, phone, course) VALUES (?, ?, ?, ?)";
+  db.query(sql, [name, email, phone, course], (err, result) => {
+    if (err) {
+      console.error("❌ Insert error:", err);
+      return res.status(500).json({ error: "Insert failed" });
+    }
+    res.json({ message: "✅ Student added", studentId: result.insertId });
+  });
+});
+
+app.listen(5000, () => {
+  console.log("🚀 Server running on http://localhost:5000");
+});

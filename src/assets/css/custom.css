@@ -1,0 +1,13 @@
+.nav.nav-pills.flex-column >.nav-item >.nav-link i:before{
+  color: #ffa901;
+    font-size: 18px;
+    margin-right: 15px;
+    margin-left: 0;
+  
+  }
+
+  .input-error {
+    border: 1px solid red;
+    box-shadow: 0 0 3px red;
+  }
+  
